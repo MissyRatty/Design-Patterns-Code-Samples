@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Behavioral\ChainOfResp\" />
+    <Folder Include="Behavioral\Command\" />
+    <Folder Include="Behavioral\Interpreter\" />
+    <Folder Include="Behavioral\Iterator\" />
+    <Folder Include="Behavioral\Mediator\" />
+    <Folder Include="Behavioral\Memento\" />
+    <Folder Include="Behavioral\Visitor\" />
+    <Folder Include="Behavioral\Template\" />
+    <Folder Include="Behavioral\Strategy\" />
+    <Folder Include="Behavioral\State\" />
+    <Folder Include="Behavioral\Observer\" />
+    <Folder Include="Creational\Factory\" />
+    <Folder Include="Creational\AbstractFactory\" />
+    <Folder Include="Creational\Prototype\" />
+    <Folder Include="Others\Uow+Repo+DataMapper\" />
+    <Folder Include="Others\NullObjectPattern\" />
+    <Folder Include="Others\UnitOfWork+Repository\" />
+    <Folder Include="Others\Repository\" />
+    <Folder Include="Structural\Adapter\" />
+    <Folder Include="Structural\Bridge\" />
+    <Folder Include="Structural\Composite\" />
+    <Folder Include="Structural\Decorator\" />
+    <Folder Include="Structural\Facade\" />
+    <Folder Include="Structural\Flyweight\" />
+    <Folder Include="Structural\Proxy\" />
+  </ItemGroup>
+
+</Project>
