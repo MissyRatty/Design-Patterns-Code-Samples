@@ -1,4 +1,4 @@
-# DesignPatterns
-Design Patterns with Easy to Understand Code Samples.
+# Design Patterns
+Design Patterns with Easy and Fun Code Samples.
 
-This is just my little playground for solid design patterns.
+This is just my little playground for design patterns.
