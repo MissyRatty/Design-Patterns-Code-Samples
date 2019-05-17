@@ -1,11 +1,11 @@
 ﻿namespace GOFDesignPatterns.Creational.AbstractFactory
 {
     // this is the client code which requests for a vehicle object
-    public class VehicleWorld
+    public class VehicleShop
     {
         private Vehicle _vehicle;
 
-        public VehicleWorld(VehicleFactory factory)
+        public VehicleShop(VehicleFactory factory)
         {
             _vehicle = factory.CreateVehicle();
         }
