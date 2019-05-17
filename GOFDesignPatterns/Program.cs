@@ -3,20 +3,33 @@ using GOFDesignPatterns.Creational.Builder;
 using GOFDesignPatterns.Creational.Factory;
 using GOFDesignPatterns.Creational.Prototype;
 using GOFDesignPatterns.Creational.Singleton;
+using GOFDesignPatterns.Structural.Adapter;
+using GOFDesignPatterns.Structural.Adapter.Target;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GOFDesignPatterns
 {
     public class Program
     {
+        private static IXmlConverter _xmlConverter;
+
         static void Main(string[] args)
         {
+            //Creational Patterns
             Singleton();
             Builder();
             Factory();
             AbstractFactory();
             Prototype();
+
+            //Structural Patterns
+            _xmlConverter = new XmlConverter(new DataProvider());
+            Adapter();
         }
+
+        #region Creational Patterns
 
         #region Singleton
 
@@ -150,6 +163,42 @@ namespace GOFDesignPatterns
             Console.WriteLine("Sheep Hashcode is: " + sheep.GetHashCode());
             Console.WriteLine("Cloned Sheep Hashcode is: " + clonedSheep.GetHashCode());
         }
+
+        #endregion
+
+        #endregion
+
+        #region Structural Patterns
+
+        #region Adapter
+
+        private static void Adapter()
+        {
+            //Get Collection of Employees
+            var employees = GetEmployeeXmlData();
+
+            //the Adapter class instance
+            var adapter = new XmlToJsonAdapter(_xmlConverter, new JsonConverter(employees));
+
+            //use the adapter to convert your xml data into json
+            adapter.ConvertXmlToJson();
+        }
+
+        private static IEnumerable<Employee> GetEmployeeXmlData()
+        {
+            // get employee data in xml and pass xml data into a Collection of Employee Objects
+            return _xmlConverter.GetXml()
+                                .Element("Employees")
+                                .Elements("Employee")
+                                .Select(x => new Employee
+                                {
+                                    FirstName = x.Attribute("FirstName").Value,
+                                    LastName = x.Attribute("LastName").Value,
+                                    City = x.Attribute("City").Value
+                                });
+        }
+
+        #endregion
 
         #endregion
     }

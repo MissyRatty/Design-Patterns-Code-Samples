@@ -16,7 +16,7 @@ The Adapter Pattern Components:
 
 
 When Do I need the Adapter Pattern ? 
-- When you want allow two (2) incompatible interfaces to work together. 
+- When you want two (2) incompatible interfaces to work together. 
 
 
 Good Thing:
