@@ -116,15 +116,15 @@ namespace GOFDesignPatterns
         private static void CreateBus()
         {
             VehicleFactory busFactory = new BusFactory();
-            VehicleWorld busWorld = new VehicleWorld(busFactory);
-            busWorld.ConstructVehicle();
+            VehicleShop busShop = new VehicleShop(busFactory);
+            busShop.ConstructVehicle();
         }
 
         private static void CreateTruck()
         {
             VehicleFactory truckFactory = new TruckFactory();
-            VehicleWorld truckWorld = new VehicleWorld(truckFactory);
-            truckWorld.ConstructVehicle();
+            VehicleShop truckShop = new VehicleShop(truckFactory);
+            truckShop.ConstructVehicle();
         }
 
         #endregion
