@@ -146,6 +146,7 @@ namespace GOFDesignPatterns
             Console.WriteLine("The cloned sheep name is " + clonedSheep.Name);
 
             // if the hashcodes are different, then these objects were stored in different memory addresses.
+            // that will mean that, we have successfully created a copy or clone of the current sheep(scooby doo) object
             Console.WriteLine("Sheep Hashcode is: " + sheep.GetHashCode());
             Console.WriteLine("Cloned Sheep Hashcode is: " + clonedSheep.GetHashCode());
         }

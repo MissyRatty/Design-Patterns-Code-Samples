@@ -11,7 +11,7 @@ namespace GOFDesignPatterns.Creational.AbstractFactory
 
         public override void Parts()
         {
-            Console.WriteLine("A Bus has four (4) Wheels");
+            Console.WriteLine("A Bus can have more than four (4) Wheels");
         }
     }
 }

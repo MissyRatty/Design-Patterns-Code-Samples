@@ -26,8 +26,8 @@ namespace GOFDesignPatterns.Creational.Singleton
             //This is also known as lazy instantiation / initialization
             //i.e: if the instance is not needed, it will never be created.
             // this instance is only created when this GetInstance method is called
-            // To make this thread safe, i.e: Supporting Multithreading
-            //It will use the Double Checked Locking which, once the instance exists, 
+            // To make this thread safe, i.e: when in a multithreaded application
+            //It will use the Double Checked Locking Pattern which, once the instance exists, 
             // will avoid locking each time the method is invoked
 
             if (_instance == null)
