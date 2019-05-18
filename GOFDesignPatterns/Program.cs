@@ -5,6 +5,8 @@ using GOFDesignPatterns.Creational.Prototype;
 using GOFDesignPatterns.Creational.Singleton;
 using GOFDesignPatterns.Structural.Adapter;
 using GOFDesignPatterns.Structural.Adapter.Target;
+using GOFDesignPatterns.Structural.Decorator;
+using GOFDesignPatterns.Structural.Facade.FacadeClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +16,22 @@ namespace GOFDesignPatterns
     public class Program
     {
         private static IXmlConverter _xmlConverter;
+        private static Pizza _pizza;
 
         static void Main(string[] args)
         {
             //Creational Patterns
-            Singleton();
-            Builder();
-            Factory();
-            AbstractFactory();
-            Prototype();
+            //Singleton();
+            //Builder();
+            //Factory();
+            //AbstractFactory();
+            //Prototype();
 
             //Structural Patterns
-            _xmlConverter = new XmlConverter(new DataProvider());
-            Adapter();
+            //_xmlConverter = new XmlConverter(new DataProvider());
+            //Adapter();
+            //Decorator();
+            //Facade();
         }
 
         #region Creational Patterns
@@ -196,6 +201,67 @@ namespace GOFDesignPatterns
                                     LastName = x.Attribute("LastName").Value,
                                     City = x.Attribute("City").Value
                                 });
+        }
+
+        #endregion
+
+        #region Decorator
+
+        private static void Decorator()
+        {
+            CreatePlainPizza();
+            CreatePizzaWithMozzarella();
+            CreatePizzaWithTomatoSauce();
+            CreatePizzaWithAllToppings();
+        }
+
+        private static void CreatePlainPizza()
+        {
+            Console.WriteLine("\n-------------------- Creating Plain Pizza With No Topping --------------------");
+            _pizza = new PlainPizza();
+            Console.WriteLine("Ingredients of plain pizza: " + _pizza.GetDescription());
+            Console.WriteLine("Plain Pizza Price: " + _pizza.GetCost());
+            Console.WriteLine("\n");
+        }
+
+        private static void CreatePizzaWithMozzarella()
+        {
+            Console.WriteLine("\n-------------------- Creating Pizza With Mozzarella Topping --------------------");
+            _pizza = new Mozzarella(new PlainPizza());
+            Console.WriteLine("Ingredients of pizza with mozzarella toppings => " + _pizza.GetDescription());
+            Console.WriteLine("Pizza with mozzarella toppings Price: " + _pizza.GetCost());
+            Console.WriteLine("\n");
+        }
+
+        private static void CreatePizzaWithTomatoSauce()
+        {
+            Console.WriteLine("\n-------------------- Creating Pizza With Tomato Sauce Topping --------------------");
+            _pizza = new TomatoSauce(new PlainPizza());
+            Console.WriteLine("Ingredients of pizza with tomato sauce toppings => " + _pizza.GetDescription());
+            Console.WriteLine("Pizza with tomato sauce toppings Price: " + _pizza.GetCost());
+            Console.WriteLine("\n");
+        }
+
+        private static void CreatePizzaWithAllToppings()
+        {
+            Console.WriteLine("\n-------------------- Creating Pizza With Tomato Sauce and Mozzarella Toppings --------------------");
+            // the plain pizza object will be sent to the Mozzarella topping constructor and TomatoSauceTopping constructor
+            _pizza = new TomatoSauce(new Mozzarella(new PlainPizza()));
+            Console.WriteLine("Ingredients of pizza with all toppings => " + _pizza.GetDescription());
+            Console.WriteLine("Pizza with all toppings Price: " + _pizza.GetCost());
+        }
+
+        #endregion
+
+        #region Facade
+
+        private static void Facade()
+        {
+            BankAccountFacade accessingBank = new BankAccountFacade(123456, 1234);
+            accessingBank.WithDrawCash(50);
+            accessingBank.WithDrawCash(60);
+            accessingBank.DepositCash(60);
+            accessingBank.WithDrawCash(60);
         }
 
         #endregion
