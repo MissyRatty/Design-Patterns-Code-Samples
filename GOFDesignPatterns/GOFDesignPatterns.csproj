@@ -20,7 +20,6 @@
     <Folder Include="Creational\Factory\" />
     <Folder Include="Creational\Prototype\" />
     <Folder Include="Others\Uow+Repo+DataMapper\" />
-    <Folder Include="Others\NullObjectPattern\" />
     <Folder Include="Others\UnitOfWork+Repository\" />
     <Folder Include="Others\Repository\" />
     <Folder Include="Structural\Bridge\" />

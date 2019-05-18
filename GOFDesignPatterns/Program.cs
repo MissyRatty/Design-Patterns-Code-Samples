@@ -3,6 +3,7 @@ using GOFDesignPatterns.Creational.Builder;
 using GOFDesignPatterns.Creational.Factory;
 using GOFDesignPatterns.Creational.Prototype;
 using GOFDesignPatterns.Creational.Singleton;
+using GOFDesignPatterns.Others.NullObjectPattern;
 using GOFDesignPatterns.Structural.Adapter;
 using GOFDesignPatterns.Structural.Adapter.Target;
 using GOFDesignPatterns.Structural.Decorator;
@@ -17,21 +18,25 @@ namespace GOFDesignPatterns
     {
         private static IXmlConverter _xmlConverter;
         private static Pizza _pizza;
+        private static IUserRepository _userRepository;
 
         static void Main(string[] args)
         {
             //Creational Patterns
-            //Singleton();
-            //Builder();
-            //Factory();
-            //AbstractFactory();
-            //Prototype();
+            Singleton();
+            Builder();
+            Factory();
+            AbstractFactory();
+            Prototype();
 
             //Structural Patterns
-            //_xmlConverter = new XmlConverter(new DataProvider());
-            //Adapter();
-            //Decorator();
-            //Facade();
+            _xmlConverter = new XmlConverter(new DataProvider());
+            Adapter();
+            Decorator();
+            Facade();
+
+            //Others
+            NullObject();
         }
 
         #region Creational Patterns
@@ -262,6 +267,26 @@ namespace GOFDesignPatterns
             accessingBank.WithDrawCash(60);
             accessingBank.DepositCash(60);
             accessingBank.WithDrawCash(60);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Others
+
+        #region Null Object Pattern
+
+        private static void NullObject()
+        {
+            _userRepository = new UserRepository();
+            var user = _userRepository.GetUserById(Guid.NewGuid());
+
+            //Without the Null Object pattern, this line would throw an exception
+            user.IncrementSessionTicket();
+
+            Console.WriteLine("The user's name is {0}", user.Name);
+            Console.ReadKey();
         }
 
         #endregion
