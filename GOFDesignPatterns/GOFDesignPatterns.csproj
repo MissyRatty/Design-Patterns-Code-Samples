@@ -10,11 +10,8 @@
     <Folder Include="Behavioral\Command\" />
     <Folder Include="Behavioral\Interpreter\" />
     <Folder Include="Behavioral\Iterator\" />
-    <Folder Include="Behavioral\Mediator\" />
     <Folder Include="Behavioral\Memento\" />
-    <Folder Include="Behavioral\Visitor\" />
     <Folder Include="Behavioral\Template\" />
-    <Folder Include="Behavioral\Strategy\" />
     <Folder Include="Behavioral\State\" />
     <Folder Include="Behavioral\Observer\" />
     <Folder Include="Creational\Factory\" />
@@ -25,7 +22,6 @@
     <Folder Include="Structural\Bridge\" />
     <Folder Include="Structural\Composite\" />
     <Folder Include="Structural\Flyweight\" />
-    <Folder Include="Structural\Proxy\" />
   </ItemGroup>
 
   <ItemGroup>

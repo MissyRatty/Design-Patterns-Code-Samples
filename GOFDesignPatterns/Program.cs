@@ -1,4 +1,7 @@
-﻿using GOFDesignPatterns.Creational.AbstractFactory;
+﻿using GOFDesignPatterns.Behavioral.Mediator;
+using GOFDesignPatterns.Behavioral.Strategy;
+using GOFDesignPatterns.Behavioral.Visitor;
+using GOFDesignPatterns.Creational.AbstractFactory;
 using GOFDesignPatterns.Creational.Builder;
 using GOFDesignPatterns.Creational.Factory;
 using GOFDesignPatterns.Creational.Prototype;
@@ -8,6 +11,7 @@ using GOFDesignPatterns.Structural.Adapter;
 using GOFDesignPatterns.Structural.Adapter.Target;
 using GOFDesignPatterns.Structural.Decorator;
 using GOFDesignPatterns.Structural.Facade.FacadeClass;
+using GOFDesignPatterns.Structural.Proxy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +33,17 @@ namespace GOFDesignPatterns
             AbstractFactory();
             Prototype();
 
-            //Structural Patterns
+            ////Structural Patterns
             _xmlConverter = new XmlConverter(new DataProvider());
             Adapter();
             Decorator();
             Facade();
+            Proxy();
+
+            //Behavioral Patterns
+            Mediator();
+            Visitor();
+            Strategy();
 
             //Others
             NullObject();
@@ -267,6 +277,96 @@ namespace GOFDesignPatterns
             accessingBank.WithDrawCash(60);
             accessingBank.DepositCash(60);
             accessingBank.WithDrawCash(60);
+        }
+
+        #endregion
+
+        #region Proxy
+
+        private static void Proxy()
+        {
+            //create proxy
+            MathProxy proxy = new MathProxy();
+
+            //Do your calculations
+            Console.WriteLine("\n ----------------- Using Math Proxy to do my Calculations ----------------------");
+            Console.WriteLine("4 + 2 = " + proxy.Add(4, 2));
+            Console.WriteLine("4 - 2 = " + proxy.Subtract(4, 2));
+            Console.WriteLine("4 * 2 = " + proxy.Multiply(4, 2));
+            Console.WriteLine("4 / 2 = " + proxy.Divide(4, 2));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Behavioral Patterns
+
+        #region Mediator
+
+        private static void Mediator()
+        {
+            // Create chatroom
+            FacebookChatRoom chatroom = new FacebookChatRoom();
+
+            // Create users
+            FacebookUser Sheldon = new Friend("Sheldon");
+            FacebookUser Penny = new Friend("Penny");
+            FacebookUser Raj = new NonFriend("Raj");
+
+            //register users
+            chatroom.Register(Sheldon);
+            chatroom.Register(Penny);
+            chatroom.Register(Raj);
+
+            //users chatting
+            Sheldon.Send("Penny", "Hi Penny!");
+            Raj.Send("Sheldon", "All you need is love");
+            Penny.Send("Raj", "My sweet Lord");
+            Sheldon.Send("Raj", "Can't buy me love");
+            Raj.Send("Penny", "My sweet love");
+        }
+
+        #endregion
+
+        #region Visitor
+
+        private static void Visitor()
+        {
+            //setup a collection of employees
+            Employees employees = new Employees();
+            employees.AddEmployee(new Developer());
+            employees.AddEmployee(new Clerk());
+
+            //Visit employees
+            employees.Accept(new IncomeVisitor());
+            employees.Accept(new VacationVisitor());
+        }
+
+        #endregion
+
+        #region Strategy
+
+        private static void Strategy()
+        {
+            IAnimal scooby = new Dog();
+            IAnimal tweety = new Bird();
+
+            //animal makes sounds
+            Console.WriteLine("\n -------------- Animal Sounds ---------------------");
+            scooby.MakeSound();
+            tweety.MakeSound();
+
+            //let animals fly
+            Console.WriteLine("\n -------------- Animal Flying Abilities ---------------------");
+            scooby.TryToFly();
+            tweety.TryToFly();
+
+
+            //dynamically changing animals flying abilities
+            Console.WriteLine("\n -------------- Dynamically Changing a Dog's Flying Abilities ---------------------");
+            scooby.SetFlyingAbility(new CanFly());
+            scooby.TryToFly();
         }
 
         #endregion
