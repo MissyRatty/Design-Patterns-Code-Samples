@@ -102,3 +102,15 @@ This asks the application the question, "Can I withdraw £50 from the bank ?"
     you'd like to have a proxy or a thing that sort of decides what methods / fields are available from that outside object.
 
  
+
+ Composite:
+ Compose objects into a tree structure to represent a part-whole hierarchy (i.e: components that can be further divided into smaller components).
+ Allows the client to treat the individual objects and their components uniformly.
+
+ structure the data of a whole object individually.
+
+ participants:
+ Component: defines common actions for all classes in the tree structure.
+ Composite: defines actions of classes which have children. Has an object reference to a collection of components to operate on. 
+ Leaf: defines actions of classes with no children. Inherits from Component Interface.
+ client: manipulates the components in the tree structure through the component interface (using the leaf and composite classes as they both implement component interface).

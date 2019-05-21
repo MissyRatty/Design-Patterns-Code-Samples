@@ -70,3 +70,25 @@ When ?
 
 Negative:
 Increased number of objects / classes
+
+
+
+Command:
+Encapsulate a request as an object, so you can parameterize your clients with different requests. 
+and support undoable operations.
+
+Here, an object is used to represent and encapsulate all the info needed to call a method at a later time.
+The info encapsulated are: MethodName, MethodOwner (Object That Owns The Method), MethodParamerterValues (arguments to be passed to the method)
+
+- Store lists of codes executed at later or many times.
+- There's capability to undo commands
+
+
+Participants:
+invoker (Tv Remote): asks command to perform a request.
+command (TurnTvOn): declares an interface for executing an operation.
+concrete command: implements the command interface (has execute()) and invokes the corresponding operations on
+the receiver. (receiver.Action()). Defines a binding between the receiver and an action.
+receiver (Tv): Knows how to perform the operations associated with carrying out the request.
+client: creates a concrete command and sets its receiver.
+   
