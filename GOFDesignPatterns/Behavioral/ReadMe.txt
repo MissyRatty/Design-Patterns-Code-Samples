@@ -80,8 +80,11 @@ and support undoable operations.
 Here, an object is used to represent and encapsulate all the info needed to call a method at a later time.
 The info encapsulated are: MethodName, MethodOwner (Object That Owns The Method), MethodParamerterValues (arguments to be passed to the method)
 
-- Store lists of codes executed at later or many times.
+- Store many (lists of) codes which can be executed at later or many times.
 - There's capability to undo commands
+
+Negative:
+You need to create many classes to store lists of commands
 
 
 Participants:
