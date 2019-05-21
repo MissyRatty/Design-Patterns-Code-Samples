@@ -1,22 +1,55 @@
-﻿using GOFDesignPatterns.Creational.AbstractFactory;
+﻿using GOFDesignPatterns.Behavioral.Mediator;
+using GOFDesignPatterns.Behavioral.Strategy;
+using GOFDesignPatterns.Behavioral.Visitor;
+using GOFDesignPatterns.Creational.AbstractFactory;
 using GOFDesignPatterns.Creational.Builder;
 using GOFDesignPatterns.Creational.Factory;
 using GOFDesignPatterns.Creational.Prototype;
 using GOFDesignPatterns.Creational.Singleton;
+using GOFDesignPatterns.Others.NullObjectPattern;
+using GOFDesignPatterns.Structural.Adapter;
+using GOFDesignPatterns.Structural.Adapter.Target;
+using GOFDesignPatterns.Structural.Decorator;
+using GOFDesignPatterns.Structural.Facade.FacadeClass;
+using GOFDesignPatterns.Structural.Proxy;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GOFDesignPatterns
 {
     public class Program
     {
+        private static IXmlConverter _xmlConverter;
+        private static Pizza _pizza;
+        private static IUserRepository _userRepository;
+
         static void Main(string[] args)
         {
+            //Creational Patterns
             Singleton();
             Builder();
             Factory();
             AbstractFactory();
             Prototype();
+
+            ////Structural Patterns
+            _xmlConverter = new XmlConverter(new DataProvider());
+            Adapter();
+            Decorator();
+            Facade();
+            Proxy();
+
+            //Behavioral Patterns
+            Mediator();
+            Visitor();
+            Strategy();
+
+            //Others
+            NullObject();
         }
+
+        #region Creational Patterns
 
         #region Singleton
 
@@ -150,6 +183,213 @@ namespace GOFDesignPatterns
             Console.WriteLine("Sheep Hashcode is: " + sheep.GetHashCode());
             Console.WriteLine("Cloned Sheep Hashcode is: " + clonedSheep.GetHashCode());
         }
+
+        #endregion
+
+        #endregion
+
+        #region Structural Patterns
+
+        #region Adapter
+
+        private static void Adapter()
+        {
+            //Get Collection of Employees
+            var employees = GetEmployeeXmlData();
+
+            //the Adapter class instance
+            var adapter = new XmlToJsonAdapter(_xmlConverter, new JsonConverter(employees));
+
+            //use the adapter to convert your xml data into json
+            adapter.ConvertXmlToJson();
+        }
+
+        private static IEnumerable<Employee> GetEmployeeXmlData()
+        {
+            // get employee data in xml and pass xml data into a Collection of Employee Objects
+            return _xmlConverter.GetXml()
+                                .Element("Employees")
+                                .Elements("Employee")
+                                .Select(x => new Employee
+                                {
+                                    FirstName = x.Attribute("FirstName").Value,
+                                    LastName = x.Attribute("LastName").Value,
+                                    City = x.Attribute("City").Value
+                                });
+        }
+
+        #endregion
+
+        #region Decorator
+
+        private static void Decorator()
+        {
+            CreatePlainPizza();
+            CreatePizzaWithMozzarella();
+            CreatePizzaWithTomatoSauce();
+            CreatePizzaWithAllToppings();
+        }
+
+        private static void CreatePlainPizza()
+        {
+            Console.WriteLine("\n-------------------- Creating Plain Pizza With No Topping --------------------");
+            _pizza = new PlainPizza();
+            Console.WriteLine("Ingredients of plain pizza: " + _pizza.GetDescription());
+            Console.WriteLine("Plain Pizza Price: " + _pizza.GetCost());
+            Console.WriteLine("\n");
+        }
+
+        private static void CreatePizzaWithMozzarella()
+        {
+            Console.WriteLine("\n-------------------- Creating Pizza With Mozzarella Topping --------------------");
+            _pizza = new Mozzarella(new PlainPizza());
+            Console.WriteLine("Ingredients of pizza with mozzarella toppings => " + _pizza.GetDescription());
+            Console.WriteLine("Pizza with mozzarella toppings Price: " + _pizza.GetCost());
+            Console.WriteLine("\n");
+        }
+
+        private static void CreatePizzaWithTomatoSauce()
+        {
+            Console.WriteLine("\n-------------------- Creating Pizza With Tomato Sauce Topping --------------------");
+            _pizza = new TomatoSauce(new PlainPizza());
+            Console.WriteLine("Ingredients of pizza with tomato sauce toppings => " + _pizza.GetDescription());
+            Console.WriteLine("Pizza with tomato sauce toppings Price: " + _pizza.GetCost());
+            Console.WriteLine("\n");
+        }
+
+        private static void CreatePizzaWithAllToppings()
+        {
+            Console.WriteLine("\n-------------------- Creating Pizza With Tomato Sauce and Mozzarella Toppings --------------------");
+            // the plain pizza object will be sent to the Mozzarella topping constructor and TomatoSauceTopping constructor
+            _pizza = new TomatoSauce(new Mozzarella(new PlainPizza()));
+            Console.WriteLine("Ingredients of pizza with all toppings => " + _pizza.GetDescription());
+            Console.WriteLine("Pizza with all toppings Price: " + _pizza.GetCost());
+        }
+
+        #endregion
+
+        #region Facade
+
+        private static void Facade()
+        {
+            BankAccountFacade accessingBank = new BankAccountFacade(123456, 1234);
+            accessingBank.WithDrawCash(50);
+            accessingBank.WithDrawCash(60);
+            accessingBank.DepositCash(60);
+            accessingBank.WithDrawCash(60);
+        }
+
+        #endregion
+
+        #region Proxy
+
+        private static void Proxy()
+        {
+            //create proxy
+            MathProxy proxy = new MathProxy();
+
+            //Do your calculations
+            Console.WriteLine("\n ----------------- Using Math Proxy to do my Calculations ----------------------");
+            Console.WriteLine("4 + 2 = " + proxy.Add(4, 2));
+            Console.WriteLine("4 - 2 = " + proxy.Subtract(4, 2));
+            Console.WriteLine("4 * 2 = " + proxy.Multiply(4, 2));
+            Console.WriteLine("4 / 2 = " + proxy.Divide(4, 2));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Behavioral Patterns
+
+        #region Mediator
+
+        private static void Mediator()
+        {
+            // Create chatroom
+            FacebookChatRoom chatroom = new FacebookChatRoom();
+
+            // Create users
+            FacebookUser Sheldon = new Friend("Sheldon");
+            FacebookUser Penny = new Friend("Penny");
+            FacebookUser Raj = new NonFriend("Raj");
+
+            //register users
+            chatroom.Register(Sheldon);
+            chatroom.Register(Penny);
+            chatroom.Register(Raj);
+
+            //users chatting
+            Sheldon.Send("Penny", "Hi Penny!");
+            Raj.Send("Sheldon", "All you need is love");
+            Penny.Send("Raj", "My sweet Lord");
+            Sheldon.Send("Raj", "Can't buy me love");
+            Raj.Send("Penny", "My sweet love");
+        }
+
+        #endregion
+
+        #region Visitor
+
+        private static void Visitor()
+        {
+            //setup a collection of employees
+            Employees employees = new Employees();
+            employees.AddEmployee(new Developer());
+            employees.AddEmployee(new Clerk());
+
+            //Visit employees
+            employees.Accept(new IncomeVisitor());
+            employees.Accept(new VacationVisitor());
+        }
+
+        #endregion
+
+        #region Strategy
+
+        private static void Strategy()
+        {
+            IAnimal scooby = new Dog();
+            IAnimal tweety = new Bird();
+
+            //animal makes sounds
+            Console.WriteLine("\n -------------- Animal Sounds ---------------------");
+            scooby.MakeSound();
+            tweety.MakeSound();
+
+            //let animals fly
+            Console.WriteLine("\n -------------- Animal Flying Abilities ---------------------");
+            scooby.TryToFly();
+            tweety.TryToFly();
+
+
+            //dynamically changing animals flying abilities
+            Console.WriteLine("\n -------------- Dynamically Changing a Dog's Flying Abilities ---------------------");
+            scooby.SetFlyingAbility(new CanFly());
+            scooby.TryToFly();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Others
+
+        #region Null Object Pattern
+
+        private static void NullObject()
+        {
+            _userRepository = new UserRepository();
+            var user = _userRepository.GetUserById(Guid.NewGuid());
+
+            //Without the Null Object pattern, this line would throw an exception
+            user.IncrementSessionTicket();
+
+            Console.WriteLine("The user's name is {0}", user.Name);
+            Console.ReadKey();
+        }
+
+        #endregion
 
         #endregion
     }
